@@ -1,0 +1,15 @@
+[package]
+name = "small_iter_fields"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Derive an iterator over the fields of a struct"
+repository = "https://github.com/Ike-l/iter_fields"
+readme = "README.md"
+
+[dependencies]
+quote = "1.0.36"
+syn = "2.0.72"
+
+[lib]
+proc-macro = true
