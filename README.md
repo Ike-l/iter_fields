@@ -11,9 +11,9 @@ It works for:
 
 ```rust
 use std::collections::HashMap;
-use small_iter_fields::IterFields;
+use small_iter_fields::{IterFields, LenFields};
  
-#[derive(IterFields, Hash, PartialEq, Eq)]
+#[derive(IterFields, LenFields, Hash, PartialEq, Eq)]
 enum Stage {
   Start,
   Middle,
