@@ -3,16 +3,18 @@
 //! 
 //! ```rust
 //! use std::collections::HashMap;
-//! use small_iter_fields::IterFields;
+//! use small_iter_fields::{IterFields, LenFields};
 //! 
-//! #[derive(IterFields, Hash, PartialEq, Eq)]
+//! #[derive(IterFields, LenFields, Hash, PartialEq, Eq)]
 //! enum Stage {
 //!     Start,
 //!     Middle,
 //!     End,
 //! }
 //!
-//! let mut map: HashMap<Stage, Vec<i32>> = HashMap::new();
+//! let mut map: HashMap<Stage, Vec<i32>> = HashMap::with_capacity(Stage::len());
+//! assert!(map.capacity() >= 3);
+//! 
 //! for stage in Stage::iter_fields() {
 //!     map.insert(stage, Vec::new());
 //! };
@@ -35,7 +37,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, Data, DeriveInput, Fields};
 
-/// To iterate over the fields of an enum.<br>
+/// Iterate over the fields of an enum.<br>
 // -- want to add an exclude attribute
 // -- want to do structs
 #[proc_macro_derive(IterFields)]
@@ -45,7 +47,6 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
 
    let expanded = match input.data {
     Data::Enum(e) => {
-        let num_fields = e.variants.len();
         let variants: Vec<_> = e.variants.into_iter().map(|v| v.ident).collect();
         quote! {
             impl #name {
@@ -57,10 +58,31 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
             }
         }
     },
-    _ => {
-        panic!("Can only be used on enums");
-    },
+    _ => panic!("Can only be used on enums")
    };
 
    expanded.into()
+}
+
+/// Get how many variants in an enum as usize.<br>
+#[proc_macro_derive(LenFields)]
+pub fn derive_len_fields(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let name = input.ident;
+
+    let expanded = match input.data {
+        Data::Enum(e) => {
+            let num = e.variants.len();
+            quote! {
+                impl #name {
+                    pub fn len() -> usize {
+                        #num
+                    }
+                }
+            }
+        },
+        _ => panic!("Can only be used on enums")
+    };
+
+    expanded.into()
 }

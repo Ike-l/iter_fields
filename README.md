@@ -1,5 +1,5 @@
 # small_iter_fields
-This crate adds ```#[derive(IterFields)]```.<br>
+This crate adds ```#[derive(IterFields)]``` and ```#[derive(LenFields)]```.<br>
 
 It works for:
 * Enums
@@ -20,7 +20,9 @@ enum Stage {
   End,
 }
 
-let mut map: HashMap<Stage, Vec<i32>> = HashMap::new();
+let mut map: HashMap<Stage, Vec<i32>> = HashMap::with_capacity(Stage::len());
+assert!(map.capacity() >= 3);
+
 for stage in Stage::iter_fields() {
   map.insert(stage, Vec::new());
 };
