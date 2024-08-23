@@ -1,9 +1,9 @@
 [package]
 name = "small_iter_fields"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "Derive an iterator over the fields of a struct"
+description = "get an iterator, or get the length, or convert to a hashmap from an enum"
 repository = "https://github.com/Ike-l/iter_fields"
 readme = "README.md"
 

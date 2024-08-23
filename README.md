@@ -20,16 +20,21 @@ enum Stage {
   End,
 }
 
-let mut map: HashMap<Stage, Vec<i32>> = HashMap::with_capacity(Stage::len());
-assert!(map.capacity() >= 3);
+let mut vec: Vec<Stage> = Vec::with_capacity(Stage::len());
+assert!(vec.capacity() >= 3);
 
 for stage in Stage::iter_fields() {
-  map.insert(stage, Vec::new());
+    vec.push(stage);
 };
- 
-assert!(map.contains_key(&Stage::Start));
-assert!(map.contains_key(&Stage::Middle));
-assert!(map.contains_key(&Stage::End));
+
+assert!(vec.contains(&Stage::Start));
+assert!(vec.contains(&Stage::Middle));
+assert!(vec.contains(&Stage::End));
+
+let map: HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
+assert!(map.capacity() >= 3);
+
+assert_eq!(map.get(&Stage::Start), Some(&Vec::new()));
 ```
 
 ## License
