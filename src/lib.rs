@@ -109,7 +109,6 @@ pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
 
    let expanded = match input.data {
     Data::Enum(e) => {
-        let variants: Vec<_> = e.variants.into_iter().map(|v| v.ident).collect();
         quote! {
             impl #name {
                 pub fn to_hashmap<T: Clone>(value: T) -> HashMap<Self, T> {
