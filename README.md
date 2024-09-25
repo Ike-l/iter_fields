@@ -1,5 +1,5 @@
 # small_iter_fields
-This crate adds ```#[derive(IterFields)]``` and ```#[derive(LenFields)]```.<br>
+This crate adds ```#[derive(IterFields)]```, ```#[derive(LenFields)]``` and ```#[derive(HashFields)]```.<br>
 
 It works for:
 * Enums
@@ -11,9 +11,9 @@ It works for:
 
 ```rust
 use std::collections::HashMap;
-use small_iter_fields::{IterFields, LenFields};
+use small_iter_fields::{IterFields, LenFields, HashFields};
  
-#[derive(IterFields, LenFields, Hash, PartialEq, Eq)]
+#[derive(IterFields, LenFields, HashFields, Hash, PartialEq, Eq)]
 enum Stage {
   Start,
   Middle,

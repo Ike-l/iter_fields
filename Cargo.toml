@@ -1,6 +1,6 @@
 [package]
 name = "small_iter_fields"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "get an iterator, or get the length, or convert to a hashmap from an enum"
