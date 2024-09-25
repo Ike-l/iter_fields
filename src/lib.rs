@@ -108,7 +108,7 @@ pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
    let name = input.ident;
 
    let expanded = match input.data {
-    Data::Enum(e) => {
+    Data::Enum(_) => {
         quote! {
             impl #name {
                 pub fn to_hashmap<T: Clone>(value: T) -> HashMap<Self, T> {
