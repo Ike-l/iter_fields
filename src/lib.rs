@@ -2,7 +2,6 @@
 //! ## Example
 //! 
 //! ```rust
-//! use std::collections::{HashMap, HashSet};
 //! use small_iter_fields::{IterFields, LenFields, HashFields};
 //! 
 //! #[derive(IterFields, LenFields, HashFields, Hash, PartialEq, Eq)]
@@ -90,7 +89,6 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
 /// # Example to_hashmap
 /// 
 /// ```
-/// use std::collections::{HashMap, HashSet};
 /// use small_iter_fields::{HashFields, IterFields};
 /// 
 /// #[derive(IterFields, HashFields, Hash, PartialEq, Eq)]
@@ -111,6 +109,8 @@ pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
    let expanded = match input.data {
     Data::Enum(_) => {
         quote! {
+            use std::collections::{HashMap, HashSet};
+
             impl #name {
                 pub fn to_hashmap<T: Clone>(value: T) -> HashMap<Self, T> {
                     HashMap::from_iter(Self::iter_fields().map(|field| (field, value.clone())))
