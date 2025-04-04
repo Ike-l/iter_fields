@@ -22,7 +22,8 @@
 //! assert!(vec.contains(&Stage::Middle));
 //! assert!(vec.contains(&Stage::End));
 //! 
-//! let map: HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
+//! let set: std::collections::HashSet<Stage> = Stage::to_hashset();
+//! let map: std::collections::HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
 //! assert!(map.capacity() >= 3);
 //! 
 //! assert_eq!(map.get(&Stage::Start), Some(&Vec::new()));
@@ -98,8 +99,8 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
 ///     End,
 /// }
 /// 
-/// let map: HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
-/// let set: HashSet<Stage> = Stage::to_hashset();
+/// let map: std::collections::HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
+/// let set: std::collections::HashSet<Stage> = Stage::to_hashset();
 /// ```
 #[proc_macro_derive(HashFields)]
 pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
@@ -109,17 +110,15 @@ pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
    let expanded = match input.data {
     Data::Enum(_) => {
         quote! {
-            use std::collections::{HashMap, HashSet};
-
             impl #name {
-                pub fn to_hashmap<T: Clone>(value: T) -> HashMap<Self, T> {
-                    HashMap::from_iter(Self::iter_fields().map(|field| (field, value.clone())))
+                pub fn to_hashmap<T: Clone>(value: T) -> std::collections::HashMap<Self, T> {
+                    std::collections::HashMap::from_iter(Self::iter_fields().map(|field| (field, value.clone())))
                 }
             }
 
             impl #name {
-                pub fn to_hashset() -> HashSet<Self> {
-                    HashSet::from_iter(Self::iter_fields())
+                pub fn to_hashset() -> std::collections::HashSet<Self> {
+                    std::collections::HashSet::from_iter(Self::iter_fields())
                 }
             }
         }
