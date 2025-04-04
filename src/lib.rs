@@ -2,7 +2,7 @@
 //! ## Example
 //! 
 //! ```rust
-//! use std::collections::HashMap;
+//! use std::collections::{HashMap, HashSet};
 //! use small_iter_fields::{IterFields, LenFields, HashFields};
 //! 
 //! #[derive(IterFields, LenFields, HashFields, Hash, PartialEq, Eq)]
@@ -90,7 +90,7 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
 /// # Example to_hashmap
 /// 
 /// ```
-/// use std::collections::HashMap;
+/// use std::collections::{HashMap, HashSet};
 /// use small_iter_fields::{HashFields, IterFields};
 /// 
 /// #[derive(IterFields, HashFields, Hash, PartialEq, Eq)]
@@ -101,6 +101,7 @@ pub fn derive_iter_fields(input: TokenStream) -> TokenStream {
 /// }
 /// 
 /// let map: HashMap<Stage, Vec<i32>> = Stage::to_hashmap(Vec::new());
+/// let set: HashSet<Stage> = Stage::to_hashset();
 /// ```
 #[proc_macro_derive(HashFields)]
 pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
@@ -113,6 +114,12 @@ pub fn derive_hash_fields(input: TokenStream) -> TokenStream {
             impl #name {
                 pub fn to_hashmap<T: Clone>(value: T) -> HashMap<Self, T> {
                     HashMap::from_iter(Self::iter_fields().map(|field| (field, value.clone())))
+                }
+            }
+
+            impl #name {
+                pub fn to_hashset() -> HashSet<Self> {
+                    HashSet::from_iter(Self::iter_fields())
                 }
             }
         }
